@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+   <constant name="struts.custom.i18n.resources" value="global" />
+   <constant name="struts.devMode" value="true" />
+<package name="usuaris" extends="struts-default">
+        <interceptors>
+                <interceptor class="cat.almata.daw.LoginInterceptor" name="loginInterceptor">
+                </interceptor>
+                <interceptor-stack name="loginStack">
+                        <interceptor-ref name="loginInterceptor" />
+                        <interceptor-ref name="defaultStack" />
+                </interceptor-stack>
+        </interceptors>
+
+        <!-- login action -->
+        <action name="login" class="cat.almata.daw.llistatUsuaris.LoginAction" method="login">
+            <result name="success" type="redirect">llistar</result>
+            <result name="login">login.jsp</result>
+        </action>
+        
+        <action name="llistar" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="llistarProductes">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success">main.jsp</result>
+      	</action>
+      
+       <action name="nouUsuari" class="cat.almata.daw.llistatUsuaris.NouUsuariAction" method="crear">
+      		<interceptor-ref name="loginStack" />
+        	<result name="login">login.jsp</result>
+      		<result name="input">newUser.jsp</result>
+      		<result name="success" type="redirectAction">llistar</result>
+      </action>
+      
+      <action name="nouProducte" class="cat.almata.daw.llistatUsuaris.NouProducteAction" method="crear">
+      		<interceptor-ref name="loginStack" />
+        	<result name="login">login.jsp</result>
+      		<result name="input">newUser.jsp</result>
+      		<result name="success" type="redirectAction">llistar</result>
+      </action>
+
+        <action name="logout" class="cat.almata.daw.llistatUsuaris.LoginAction" method="logout">
+                <result>login.jsp</result>
+        </action>
+</package>
+</struts>

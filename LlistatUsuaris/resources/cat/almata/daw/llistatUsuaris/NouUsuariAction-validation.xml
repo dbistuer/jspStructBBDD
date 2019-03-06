@@ -1,0 +1,43 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+ "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+
+ <!-- Field-Validator Syntax with expression -->
+    <field name="producte.nom">
+        <field-validator type="requiredstring">
+            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
+            <message key="validacio.nom"/>
+        </field-validator>
+    </field>
+    <field name="producte.disponibilitat">
+    <field-validator type="requiredstring">
+            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
+            <message key="validacio.disponibilitat"/>
+        </field-validator>
+    </field>
+    <field name="producte.descripcio">
+        <field-validator type="requiredstring">
+            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
+            <message key="validacio.descripcio"/>
+        </field-validator>
+    </field>
+   
+    <field name="producte.preu">
+        <field-validator type="requiredstring">
+            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
+            <message key="validacio.preu"/>
+        </field-validator>
+    </field>
+    <!-- Validadors que no son per mirar que no estigui vuit -->
+    <field name="producte.iniciVenda">
+    	<field-validator type="required">
+            <message key="validacio.iniciVenda"/>
+        </field-validator>
+        <field-validator type="date">
+            <param name="minExpression">${minDate}</param> <!-- will be evaluated as: Date getMinValue() -->
+            <param name="maxExpression">${maxDate}</param>
+            <message key="validacio.edat"/>
+        </field-validator>
+    </field>
+
+</validators>
