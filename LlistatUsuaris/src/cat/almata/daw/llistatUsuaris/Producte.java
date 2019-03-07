@@ -12,7 +12,7 @@ public class Producte {
 	private String descripcio;
 	private float preu;
 	private int idUsuari;
-	private Date dataInici;
+	private String dataInici;
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -30,15 +30,14 @@ public class Producte {
 	}
 
 	public Producte(String nom, int disponibilitat, int idUsuari, String descripcio,
-			float preu, String fechaInici) throws ParseException {
+			float preu, String fechaInici){
 		this(nom,disponibilitat, idUsuari);
 		this.descripcio = descripcio;
 		this.preu = preu;
-		setFechaInici(fechaInici);
-		this.dataInici=sdf.parse(fechaInici);
+		this.dataInici=fechaInici;
 	}
 	
-	public Producte(int id,int idUsuari,String nom,int disponibilitat,String descripcio,float preu,Date iniciVenda){
+	public Producte(int id,int idUsuari,String nom,int disponibilitat,String descripcio,float preu,String iniciVenda){
 		this(nom,disponibilitat, idUsuari);
 		this.descripcio = descripcio;
 		this.preu = preu;
@@ -46,11 +45,11 @@ public class Producte {
 		this.id=id;
 	}
 
-	public Date getDataInici() {
+	public String getDataInici() {
 		return dataInici;
 	}
 
-	public void setDataInici(Date dataInici) {
+	public void setDataInici(String dataInici) {
 		this.dataInici = dataInici;
 	}
 
@@ -58,13 +57,13 @@ public class Producte {
 		return sdf.format(dataInici);
 	}
 
-	public void setFechaInici(String fechaInici) {
+	/*public void setFechaInici(String fechaInici) {
 		try {
 			this.dataInici = sdf.parse(fechaInici);
 		}catch(Exception e) {
 			this.dataInici = new Date();
 		}
-	}
+	}*/
 
 	public int getIdUsuari() {
 		return idUsuari;

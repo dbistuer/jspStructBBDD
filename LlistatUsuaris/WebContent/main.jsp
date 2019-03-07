@@ -32,7 +32,8 @@
             	<td align="center"><s:property value="disponibilitat"/></td>
             	<td align="center"><s:property value="descripcio"/></td>
             	<td align="center"><s:property value="preu"/></td>
-            	<!-- <td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td> -->
+            	<td align="center"><s:property value="dataInici"/></td> 
+            	<!-- <td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>  -->
     </s:iterator>
     
 	<jsp:include page="peu.jsp"/>

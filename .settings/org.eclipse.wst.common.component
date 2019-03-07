@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="jspStructBBDD">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/LlistatUsuaris/src"/>
+        <property name="context-root" value="jspStructBBDD"/>
+        <property name="java-output-path" value="/jspStructBBDD/LlistatUsuaris/build/classes"/>
+    </wb-module>
+</project-modules>

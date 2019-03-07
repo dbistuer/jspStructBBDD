@@ -226,7 +226,7 @@ public class GestorBd {
 				insertedProduct.setInt(3,producte.getDisponibilitat());
 				insertedProduct.setString(4,producte.getDescripcio());
 				insertedProduct.setFloat(5,producte.getPreu());
-				insertedProduct.setDate(6,(java.sql.Date) producte.getDataInici());
+				insertedProduct.setString(6,producte.getDataInici());
 				insertedProduct.executeQuery();
 			
 			}catch(SQLException stmte){
@@ -253,7 +253,7 @@ public class GestorBd {
 				try(ResultSet rs = usersFound.executeQuery()){
 					
 					while(rs.next()){
-						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getString("iniciVenda"));
 						productes.add(producte);
 					}
 					
@@ -283,7 +283,7 @@ public class GestorBd {
 				updProduct.setInt(2,producte.getDisponibilitat());
 				updProduct.setString(3,producte.getDescripcio());
 				updProduct.setFloat(4,producte.getPreu());
-				updProduct.setDate(5,(java.sql.Date) producte.getDataInici());
+				updProduct.setString(5,producte.getDataInici());
 				updProduct.setInt(6,producte.getIdUsuari());
 				updProduct.addBatch();
 				
