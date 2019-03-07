@@ -240,9 +240,9 @@ public class GestorBd {
 	}
 	
 	
-	public Hashtable<Integer,Producte> obtenirProductes(){
+	public ArrayList<Producte> obtenirProductes(){
 		
-		Hashtable<Integer,Producte> productes = new Hashtable<Integer,Producte>();
+		ArrayList<Producte> productes = new ArrayList<Producte>();
 		
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
@@ -254,7 +254,7 @@ public class GestorBd {
 					
 					while(rs.next()){
 						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
-						productes.put(new Integer(producte.getId()) ,producte);
+						productes.add(producte);
 					}
 					
 				}catch(SQLException rse){

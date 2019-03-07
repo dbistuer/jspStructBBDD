@@ -1,5 +1,6 @@
 package cat.almata.daw.llistatUsuaris;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 	}
 	
 	
-	public Producte getUsuari() {
+	public Producte getProducte() {
 		return producte;
 	}
 
@@ -44,11 +45,11 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		this.application = application;
 	}
 	
-	public Collection<Producte> getProducte() {
+	public Collection<Producte> getProductes() {
 		return productes;
 	}
 
-	public void setProducte(Collection<Producte> productes) {
+	public void setProductes(Collection<Producte> productes) {
 		this.productes = productes;
 	}
 	
@@ -60,14 +61,14 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		
 		cargaDB();
 		
-		Hashtable<Integer,Producte> llistatProductes = db.obtenirProductes();
+		ArrayList<Producte> llistatProductes = db.obtenirProductes();
 		usuari = (Usuari)session.get(Constants.sessioUsuari);
 		if(usuari != null) {
 		if(llistatProductes == null) {
-			llistatProductes = new Hashtable<Integer,Producte>();
+			llistatProductes = new ArrayList<Producte>();
 		}
 		application.put(Constants.llistatProductes, llistatProductes);
-		productes = llistatProductes.values();
+		productes = llistatProductes;
 		return SUCCESS;
 		}else {
 			return "no user";
