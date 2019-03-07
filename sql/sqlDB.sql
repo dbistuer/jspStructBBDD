@@ -19,7 +19,7 @@ nom varchar(20),
 disponibilitat integer,
 descripcio varchar(2000),
 preu float(6,2),
-iniciVenda date,
+iniciVenda varchar(20),
 PRIMARY KEY (id),
 FOREIGN KEY (idUsuari) REFERENCES usuari(id)
 );
