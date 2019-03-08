@@ -19,7 +19,7 @@ nom varchar(20),
 disponibilitat integer,
 descripcio varchar(2000),
 preu float(6,2),
-iniciVenda varchar(20),
+iniciVenda date,
 PRIMARY KEY (id),
 FOREIGN KEY (idUsuari) REFERENCES usuari(id)
 );
@@ -52,5 +52,5 @@ VALUES(1,'patata',5,'Producte agricola sense pesticides in aditus.',1.0,'2019-02
 
 UPDATE producte SET nom='pastanaga', disponibilitat=10, descripcio='Es una pastanaga', preu=1.4, iniciVenda='2018-01-01' WHERE id=1;
 
-/*UPDATE DISPONIVILITAT PRODUCTE*/
+/*UPDATE DISPONIBILITAT PRODUCTE*/
 UPDATE producte SET disponibilitat=10 WHERE id=1;
