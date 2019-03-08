@@ -51,8 +51,12 @@ public class Usuari {
 		this.cognoms = cognoms;
 		this.email = email;
 		this.pass= pass;
+		this.id=id;
 	}
 
+	public int getId() {
+		return id;
+	}
 	public String getLogin() {
 		return login;
 	}

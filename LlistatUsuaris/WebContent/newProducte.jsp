@@ -30,7 +30,7 @@
 	  <s:textfield key="newP.disponibilitat" name="producte.disponibilitat"  />
 	  <s:textfield key="newP.descripcio" name="producte.descripcio"  />
 	  <s:textfield key="newP.preu" name="producte.preu"  />
-      <s:textfield key="newP.iniciVenda" name="producte.iniciVenda"  value="%{getText('global.date',{producte.iniciVenda})}" />
+      <s:textfield key="newP.iniciVenda" name="producte.dataInici"  value="%{getText('global.date',{producte.dataInici})}" />
       <s:submit name="submit" key="global.save" align="center" />
    </s:form>
 	<jsp:include page="peu.jsp"/>

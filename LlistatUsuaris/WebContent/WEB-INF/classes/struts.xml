@@ -38,7 +38,7 @@
       <action name="nouProducte" class="cat.almata.daw.llistatUsuaris.NouProducteAction" method="crear">
       		<interceptor-ref name="loginStack" />
         	<result name="login">login.jsp</result>
-      		<result name="input">newUser.jsp</result>
+      		<result name="input">newProducte.jsp</result>
       		<result name="success" type="redirectAction">llistar</result>
       </action>
 

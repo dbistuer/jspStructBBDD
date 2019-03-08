@@ -95,6 +95,118 @@ public class GestorBd {
 	}
 	
 	
+	public void crearProducte(Producte producte) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "INSERT INTO "+database+".producte(idUsuari,nom,disponibilitat,descripcio,preu,iniciVenda) VALUES( ? , ? , ? , ? , ? , ? );";
+			try(PreparedStatement insertedProduct = conn.prepareStatement(sql)){
+				
+
+				insertedProduct.setInt(1,producte.getIdUsuari());
+				insertedProduct.setString(2,producte.getNom());
+				insertedProduct.setInt(3,producte.getDisponibilitat());
+				insertedProduct.setString(4,(producte.getDescripcio()));
+				insertedProduct.setFloat(5,producte.getPreu());
+				insertedProduct.setString(6,producte.getDataInici());
+				retorn = insertedProduct.executeUpdate();
+				System.out.println(retorn+" fila\'es insertades");
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		
+	}
+	
+	
+	public ArrayList<Producte> obtenirProductes(){
+		
+		ArrayList<Producte> productes = new ArrayList<Producte>();
+		
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT * FROM "+database+".producte;";
+			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
+				
+				
+				try(ResultSet rs = usersFound.executeQuery()){
+					
+					while(rs.next()){
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getString("iniciVenda"));
+						productes.add(producte);
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return productes;
+		
+	}
+
+	public void updProducte(Producte producte) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "UPDATE "+database+".producte SET nom=?, disponibilitat=?, descripcio=?, preu=?, iniciVenda=? WHERE id=?;";
+			try(PreparedStatement updProduct = conn.prepareStatement(sql)){
+				
+
+				updProduct.setString(1,producte.getNom());
+				updProduct.setInt(2,producte.getDisponibilitat());
+				updProduct.setString(3,producte.getDescripcio());
+				updProduct.setFloat(4,producte.getPreu());
+				updProduct.setString(5,producte.getDataInici());
+				updProduct.setInt(6,producte.getIdUsuari());
+				updProduct.addBatch();
+				
+				updProduct.executeBatch();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		
+	}
+	
+	public void compraProducte(Producte producte) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "UPDATE "+database+".producte SET disponibilitat=? WHERE id=?";
+			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
+				
+
+				compraProduct.setInt(1,producte.getDisponibilitat());
+				compraProduct.setInt(2,producte.getIdUsuari());
+				compraProduct.addBatch();
+				
+				compraProduct.executeBatch();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		
+	}
+	
+	/**************************************************************************************************************/
+	
 	public Collection<Usuari> obtenirUsuaris(){
 		
 		
@@ -162,7 +274,7 @@ public class GestorBd {
 		Usuari usuari = null;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 
-			String sql = "SELECT COUNT(*) AS NUMERO FROM "+database+".usuari WHERE login LIKE ?;";
+			String sql = "SELECT * FROM "+database+".usuari WHERE login LIKE ?;";
 			try(PreparedStatement loginUser = conn.prepareStatement(sql)){
 				
 				loginUser.setString(1,login);
@@ -200,118 +312,6 @@ public class GestorBd {
 				insertedUser.setFloat(5,producte.getPreu());
 				insertedUser.setDate(6,(java.sql.Date) producte.getDataInici());
 				insertedUser.executeQuery();*/
-			
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		
-	}
-	
-	/**********************************************************************************************************************/
-	
-	public void crearProducte(Producte producte) {
-		int retorn = 0;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-
-			String sql = "INSERT INTO "+database+".producte(idUsuari,nom,disponibilitat,descripcio,preu,inicivenda) VALUES(?,?,?,?,?,?);";
-			try(PreparedStatement insertedProduct = conn.prepareStatement(sql)){
-				
-
-				insertedProduct.setInt(1,producte.getIdUsuari());
-				insertedProduct.setString(2,producte.getNom());
-				insertedProduct.setInt(3,producte.getDisponibilitat());
-				insertedProduct.setString(4,producte.getDescripcio());
-				insertedProduct.setFloat(5,producte.getPreu());
-				insertedProduct.setString(6,producte.getDataInici());
-				insertedProduct.executeQuery();
-			
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		
-	}
-	
-	
-	public ArrayList<Producte> obtenirProductes(){
-		
-		ArrayList<Producte> productes = new ArrayList<Producte>();
-		
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-			
-			String sql = "SELECT * FROM "+database+".producte;";
-			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
-				
-				
-				try(ResultSet rs = usersFound.executeQuery()){
-					
-					while(rs.next()){
-						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getString("iniciVenda"));
-						productes.add(producte);
-					}
-					
-				}catch(SQLException rse){
-					rse.printStackTrace();
-				}
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		return productes;
-		
-	}
-
-	public void updProducte(Producte producte) {
-		int retorn = 0;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-
-			String sql = "UPDATE "+database+".producte SET nom=?, disponibilitat=?, descripcio=?, preu=?, iniciVenda=? WHERE id=?";
-			try(PreparedStatement updProduct = conn.prepareStatement(sql)){
-				
-
-				updProduct.setString(1,producte.getNom());
-				updProduct.setInt(2,producte.getDisponibilitat());
-				updProduct.setString(3,producte.getDescripcio());
-				updProduct.setFloat(4,producte.getPreu());
-				updProduct.setString(5,producte.getDataInici());
-				updProduct.setInt(6,producte.getIdUsuari());
-				updProduct.addBatch();
-				
-				updProduct.executeBatch();
-			
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		
-	}
-	
-	public void compraProducte(Producte producte) {
-		int retorn = 0;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-
-			String sql = "UPDATE "+database+".producte SET disponibilitat=? WHERE id=?";
-			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
-				
-
-				compraProduct.setInt(1,producte.getDisponibilitat());
-				compraProduct.setInt(2,producte.getIdUsuari());
-				compraProduct.addBatch();
-				
-				compraProduct.executeBatch();
 			
 			}catch(SQLException stmte){
 				stmte.printStackTrace();

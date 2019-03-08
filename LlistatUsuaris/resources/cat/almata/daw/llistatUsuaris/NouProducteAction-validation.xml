@@ -3,70 +3,38 @@
 <validators>
 
  <!-- Field-Validator Syntax with expression -->
-    <field name="usuari.nom">
+    <field name="producte.nom">
         <field-validator type="requiredstring">
             <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
             <message key="validacio.nom"/>
         </field-validator>
     </field>
-    <field name="usuari.login">
-    <field-validator type="requiredstring">
-            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.login"/>
+    <field name="producte.disponibilitat">
+        <field-validator type="required">
+               <message key="validacio.disponibilitat"/>
         </field-validator>
     </field>
-    <field name="usuari.cognoms">
+    <field name="producte.descripcio">
         <field-validator type="requiredstring">
             <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.cognoms"/>
+            <message key="validacio.descripcio"/>
         </field-validator>
     </field>
-   
-    <field name="usuari.email">
-        <field-validator type="requiredstring">
-            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.email"/>
-        </field-validator>
-        <field-validator type="email">
-           <message key="validacio.structEmail"/>
-        </field-validator>
-    </field>
-    <field name="usuari.mobil">
-        <field-validator type="requiredstring">
-            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.mobil"/>
+    <field name="producte.preu">
+        <field-validator type="required">
+               <message key="validacio.preu"/>
         </field-validator>
     </field>
     <!-- Validadors que no son per mirar que no estigui vuit -->
-    <field name="usuari.dataNaixement">
+    <field name="producte.dataInici">
     	<field-validator type="required">
-            <message key="validacio.dataNaixement"/>
+            <message key="validacio.dataInici"/>
         </field-validator>
-        <field-validator type="date">
-            <param name="minExpression">${minDate}</param> <!-- will be evaluated as: Date getMinValue() -->
+        <!-- <field-validator type="date">
+            <param name="minExpression">${minDate}</param> 
             <param name="maxExpression">${maxDate}</param>
-            <message key="validacio.edat"/>
-        </field-validator>
-    </field>
-
-     <validator type="regex">
-	    <param name="fieldname">usuari.mobil</param>
-	    <param name="regex"><![CDATA[[+]\d{2}-\d{3}-\d{6}]]></param>
-	    <message key="validacio.numero"/>
-	</validator>
-	
-	   <field name="usuari.pass">
-        <field-validator type="requiredstring">
-            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.pass"/>
-        </field-validator>
-    </field>
-    
-       <field name="usuari.password">
-        <field-validator type="requiredstring">
-            <param name="trimExpression">${trimValue}</param> <!-- will be evaluated as: boolean getTrimValue() -->
-            <message key="validacio.password"/>
-        </field-validator>
+            <message key="validacio.edat"/>  
+        </field-validator> -->
     </field>
 
 </validators>
