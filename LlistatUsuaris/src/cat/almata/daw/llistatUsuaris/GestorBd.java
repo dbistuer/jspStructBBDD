@@ -16,13 +16,16 @@ import java.util.List;
 
 public class GestorBd {
 	
+	/*****************Atributs******************/
+	
 	private String hostname;
 	private String database;
 	private String port;
 	private String userLogin;
 	private String userPasswd;
-	
 	private Connection conn;
+	
+	/***************Constructors*****************/
 	
 	public GestorBd(){
 		super();
@@ -38,7 +41,6 @@ public class GestorBd {
 		this.port=port;
 	}
 
-
 	public GestorBd(String hostname, String database, String user, String passwd) {
 		this();
 		this.hostname = hostname;
@@ -47,53 +49,8 @@ public class GestorBd {
 		this.userPasswd = passwd;
 		
 	}
-	
 
-	public String getHostname() {
-		return hostname;
-	}
-
-
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
-
-
-	public String getDatabase() {
-		return database;
-	}
-
-
-	public void setDatabase(String database) {
-		this.database = database;
-	}
-
-
-	public String getPort() {
-		return port;
-	}
-
-
-	public void setPort(String port) {
-		this.port = port;
-	}
-
-	public String getUserLogin() {
-		return userLogin;
-	}
-
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
-	}
-
-	public String getUserPasswd() {
-		return userPasswd;
-	}
-
-	public void setUserPasswd(String userPasswd) {
-		this.userPasswd = userPasswd;
-	}
-	
+	/***********Metodes de negoci*************/
 	
 	public void crearProducte(Producte producte) {
 		int retorn = 0;
@@ -214,7 +171,7 @@ public class GestorBd {
 		}
 		return productes;
 	}
-	
+	/***/
  	public void updProducte(Producte producte) {
 		int retorn = 0;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
@@ -385,6 +342,47 @@ public class GestorBd {
 		}
 		
 	}
+
+	/****************Setters && Getters****************/
 	
+	public String getHostname() {
+		return hostname;
+	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public String getUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(String userLogin) {
+		this.userLogin = userLogin;
+	}
+
+	public String getUserPasswd() {
+		return userPasswd;
+	}
+
+	public void setUserPasswd(String userPasswd) {
+		this.userPasswd = userPasswd;
+	}
 
 }
