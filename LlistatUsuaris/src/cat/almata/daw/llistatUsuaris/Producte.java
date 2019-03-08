@@ -12,7 +12,7 @@ public class Producte {
 	private String descripcio;
 	private float preu;
 	private int idUsuari;
-	private String dataInici;
+	private Date dataInici;
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -30,14 +30,14 @@ public class Producte {
 	}
 
 	public Producte(String nom, int disponibilitat, int idUsuari, String descripcio,
-			float preu, String fechaInici){
+			float preu, Date fechaInici){
 		this(nom,disponibilitat, idUsuari);
 		this.descripcio = descripcio;
 		this.preu = preu;
 		this.dataInici=fechaInici;
 	}
 	
-	public Producte(int id,int idUsuari,String nom,int disponibilitat,String descripcio,float preu,String iniciVenda){
+	public Producte(int id,int idUsuari,String nom,int disponibilitat,String descripcio,float preu,Date iniciVenda){
 		this(nom,disponibilitat, idUsuari);
 		this.descripcio = descripcio;
 		this.preu = preu;
@@ -45,11 +45,11 @@ public class Producte {
 		this.id=id;
 	}
 
-	public String getDataInici() {
+	public Date getDataInici() {
 		return dataInici;
 	}
 
-	public void setDataInici(String dataInici) {
+	public void setDataInici(Date dataInici) {
 		this.dataInici = dataInici;
 	}
 

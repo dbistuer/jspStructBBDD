@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -108,7 +108,8 @@ public class GestorBd {
 				insertedProduct.setInt(3,producte.getDisponibilitat());
 				insertedProduct.setString(4,(producte.getDescripcio()));
 				insertedProduct.setFloat(5,producte.getPreu());
-				insertedProduct.setString(6,producte.getDataInici());
+				java.sql.Date dinici= new java.sql.Date(producte.getDataInici().getTime());
+				insertedProduct.setDate(6,dinici);
 				retorn = insertedProduct.executeUpdate();
 				System.out.println(retorn+" fila\'es insertades");
 			}catch(SQLException stmte){
@@ -121,21 +122,20 @@ public class GestorBd {
 		
 	}
 	
-	
 	public ArrayList<Producte> obtenirProductes(){
 		
 		ArrayList<Producte> productes = new ArrayList<Producte>();
 		
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
-			String sql = "SELECT * FROM "+database+".producte;";
+			String sql = "SELECT * FROM "+database+".producte ORDER BY preu ASC;";
 			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
 				
 				
 				try(ResultSet rs = usersFound.executeQuery()){
 					
 					while(rs.next()){
-						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getString("iniciVenda"));
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
 						productes.add(producte);
 					}
 					
@@ -153,7 +153,69 @@ public class GestorBd {
 		
 	}
 
-	public void updProducte(Producte producte) {
+	public ArrayList<Producte> filtrarProductes(Date dataInici,Date dataFi){
+		ArrayList<Producte> productes = new ArrayList<Producte>();
+				
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT * FROM "+database+".producte WHERE iniciVenda BETWEEN ? AND  ? ORDER BY preu ASC;";
+			try(PreparedStatement usersFiltro = conn.prepareStatement(sql)){
+				
+				usersFiltro.setDate(1,dataInici);
+				usersFiltro.setDate(2,dataFi);
+				
+				try(ResultSet rs = usersFiltro.executeQuery()){
+					
+					while(rs.next()){
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
+						productes.add(producte);
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return productes;
+	}
+	
+	public ArrayList<Producte> filtrarProductes(int preuMinim,int preuMaxim){
+		ArrayList<Producte> productes = new ArrayList<Producte>();
+				
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT * FROM "+database+".producte WHERE preu BETWEEN ? AND  ? ORDER BY preu ASC;";
+			try(PreparedStatement usersFiltro = conn.prepareStatement(sql)){
+				
+				usersFiltro.setInt(1,preuMinim);
+				usersFiltro.setInt(2,preuMaxim);
+				
+				try(ResultSet rs = usersFiltro.executeQuery()){
+					
+					while(rs.next()){
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
+						productes.add(producte);
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return productes;
+	}
+	
+ 	public void updProducte(Producte producte) {
 		int retorn = 0;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 
@@ -165,7 +227,8 @@ public class GestorBd {
 				updProduct.setInt(2,producte.getDisponibilitat());
 				updProduct.setString(3,producte.getDescripcio());
 				updProduct.setFloat(4,producte.getPreu());
-				updProduct.setString(5,producte.getDataInici());
+				java.sql.Date dinici= new java.sql.Date(producte.getDataInici().getTime());
+				updProduct.setDate(5,dinici);
 				updProduct.setInt(6,producte.getIdUsuari());
 				updProduct.addBatch();
 				

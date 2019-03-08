@@ -15,7 +15,16 @@
 	<jsp:include page="menu.jsp">
 		<jsp:param name="menuActual" value="llistar.action"/>
 	</jsp:include>
-	
+	<s:form action="filtrar.action" method="post">
+		<s:textfield key="main.dataInici" name="dataInici"  value="%{getText('global.date',{dataInici})}" />
+		<s:textfield key="main.dataFi" name="dataFi"  value="%{getText('global.date',{dataFi})}" />
+		<s:submit name="submit" key="global.cerca" align="center" />
+	</s:form>
+		<s:form action="filtrarPreu.action" method="post">
+		<s:textfield type="number" key="main.preuMinim" name="preuMinim" />
+		<s:textfield type="number" key="main.preuMaxim" name="preuMaxim" />
+		<s:submit name="submit" key="global.cerca" align="center" />
+	</s:form>
 	<table width="100%">
 			<!-- capcalera -->
 			<tr><th colspan="7"><s:text name="llistat.llistatUsuaris" /></th></tr>
@@ -32,8 +41,7 @@
             	<td align="center"><s:property value="disponibilitat"/></td>
             	<td align="center"><s:property value="descripcio"/></td>
             	<td align="center"><s:property value="preu"/></td>
-            	<td align="center"><s:property value="dataInici"/></td> 
-            	<!-- <td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>  -->
+            	<td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>
     </s:iterator>
     
 	<jsp:include page="peu.jsp"/>

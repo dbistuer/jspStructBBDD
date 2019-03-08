@@ -30,6 +30,9 @@
     	<field-validator type="required">
             <message key="validacio.dataInici"/>
         </field-validator>
+        <field-validator type="date">
+            <message key="validacio.dataInici"/>
+        </field-validator>
         <!-- <field-validator type="date">
             <param name="minExpression">${minDate}</param> 
             <param name="maxExpression">${maxDate}</param>

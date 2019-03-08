@@ -27,6 +27,18 @@
             <result name="login">login.jsp</result>
       		<result name="success">main.jsp</result>
       	</action>
+      	
+      	<action name="filtrar" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="filtrarProductes">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success">main.jsp</result>
+      	</action>
+      	
+      	<action name="filtrarPreu" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="filtrarPreu">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success">main.jsp</result>
+      	</action>
       
        <action name="nouUsuari" class="cat.almata.daw.llistatUsuaris.NouUsuariAction" method="crear">
       		<interceptor-ref name="loginStack" />
