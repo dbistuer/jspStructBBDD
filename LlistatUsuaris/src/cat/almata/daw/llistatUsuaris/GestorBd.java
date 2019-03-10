@@ -199,7 +199,62 @@ public class GestorBd {
 		}
 		return productes;
 	}
+	
+ 	public int producteAlCarro(Producte producte,int id) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "INSERT INTO "+database+".carrito(idUsuari,idProducte,cantitat)  VALUES(?,?,?) ";
+			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
+				
+
+				compraProduct.setInt(1,id);
+				compraProduct.setInt(2,producte.getId());
+				compraProduct.setInt(3,1);
+				
+				retorn = compraProduct.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return retorn;
+	}
+	
 	/***/
+ 	public Collection<Producte> obtenirProductesCarro(int id){
+ 		Collection<Producte> productes = new ArrayList<Producte>();
+		
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT producte.id,producte.nom,producte.preu,COUNT(cantitat) AS cantitat,producte.descripcio,producte.idUsuari FROM "+database+"carrito, "+database+"producte WHERE carrito.idProducte=producte.id AND carrito.idUsuari = ? GROUP BY idProducte ORDER BY preu ASC;";
+			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
+				
+				usersFound.setInt(1, id);
+				
+				try(ResultSet rs = usersFound.executeQuery()){
+					
+					while(rs.next()){
+						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("cantitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
+						productes.add(producte);
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return productes;
+ 	}
+ 	
  	public void updProducte(Producte producte) {
 		int retorn = 0;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
@@ -228,30 +283,8 @@ public class GestorBd {
 		}
 		
 	}
- 	/*Fer el triguer que resta al producte i aqui fer el insert a la taula carrito*/
- 	public int producteAlCarro(Producte producte,int id) {
-		int retorn = 0;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+ 	
 
-			String sql = "INSERT INTO "+database+".carrito(idUsuari,idProducte,cantitat)  VALUES(?,?,?) ";
-			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
-				
-
-				compraProduct.setInt(1,id);
-				compraProduct.setInt(2,producte.getId());
-				compraProduct.setInt(3,1);
-				
-				retorn = compraProduct.executeUpdate();
-			
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		return retorn;
-	}
 	
 	public void compraProducte(Producte producte) {
 		int retorn = 0;

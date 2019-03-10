@@ -1,36 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="s" uri="/struts-tags" %>
+    
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Llista usuaris</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Llistat de productes</title>
 </head>
 <body>
-	<h2 style="color: green">
-		Prova checkboxes...
-	</h2>
-	<s:form action="checkBoxArrayAction" namespace="/" method="post">
-		<table cellspacing="0" cellpadding="0" border="1" width="500">
+ <!-- <p>Usuari: <s:property value="usuari.login"/></p>
+ <p>Sessio: <s:property value="%{getText('global.date2',{usuari.iniciSessio})}"/></p>  -->
+	<jsp:include page="menu.jsp">
+		<jsp:param name="menuActual" value="llistar.action"/>
+	</jsp:include>
+	<s:form action="carro.action" method="post">
+		<table width="100%">
+				<!-- capcalera -->
+				<tr><th colspan="7"><s:text name="llistat.llistatUsuaris" /></th></tr>
+				<tr bgcolor="grey"><th><b><s:text name="llistat.carro" /></b></th><th><b><s:text name="llistat.id" /></b></th><th><b><s:text name="llistat.idUsuari" /></b></th><th><b><s:text name="llistat.nom" /></b></th><th><b><s:text name="llistat.disponibilitat" /></b></th><th><b><s:text name="llistat.descripcio" /></b></th><th><b><s:text name="llistat.preu" /></b></th><th><b><s:text name="llistat.dataInici" /></b></th>
 		
-			<tr style="font-weight: bold">
-				<td><s:checkbox name="Select All" id="select_all" theme="simple" /></td>
-				<td><s:text name="nom" /></td>
-				<td><s:text name="dni" /></td>
-			</tr>
-			
-			<s:iterator value="userList" status="stat">
-				<tr>
-					<td><s:checkbox name="checkboxes[%{#stat.index}]" theme="simple" /></td>  	
-					<td><s:property value="nom" /></td>
-					<td><s:property value="dni" /></td>
-					<s:hidden value="%{userList.nom}"/>
-				</tr>
-			</s:iterator>
-		</table>
-		</br>
-		<s:submit align="left" />
-	</s:form>
+		<s:iterator value="productes" var="producte" status="rowstatus">
+		 			<!-- Pintem els parells diferent dels imparells -->
+		 			<s:if test="#rowstatus.odd == true"><tr bgcolor="Aqua"></s:if>
+	            	<s:else><tr></s:else>
+	            	<!-- Anem a llistar un PRODUCTE -->
+	            	<!--  <td align="center"><s:checkbox name="checkboxes[%{#rowstatus.index}]" theme="simple" /></td>  -->
+	            	<td align="center"><s:checkbox name="checkboxes[%{id,idUsuari}]" theme="simple" /></td>
+	            	<td align="center"><s:property value="id"/></td>
+	            	<td align="center"><s:property value="idUsuari"/></td>
+	            	<td align="center"><s:property value="nom"/></td>
+	            	<td align="center"><s:property value="disponibilitat"/></td>
+	            	<td align="center"><s:property value="descripcio"/></td>
+	            	<td align="center"><s:property value="preu"/></td>
+	            	<td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>
+	    </s:iterator>
+	    <s:submit name="submit" key="global.carro" align="center" />
+    </s:form>
+	<jsp:include page="peu.jsp"/>
 </body>
 </html>
