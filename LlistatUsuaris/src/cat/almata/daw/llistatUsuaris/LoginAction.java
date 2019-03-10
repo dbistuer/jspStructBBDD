@@ -39,6 +39,7 @@ public class LoginAction extends DBAction implements SessionAware{
 	public String login(){
 		cargaDB();
 		if(db.loginUsuari(usuari.getLogin(), usuari.getPass())){
+			usuari = db.getUsuari(usuari.getLogin());
 			session.put(Constants.sessioUsuari, usuari);
 			return SUCCESS;
 		}else {

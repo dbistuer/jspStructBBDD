@@ -57,7 +57,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		productes = llistatProductes;
 		return SUCCESS;
 		}else {
-			return "no user";
+			return "login";
 		}
 		
 	}
@@ -80,7 +80,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 				return "feches = null";
 			}
 		}else {
-			return "no user";
+			return "login";
 		}
 	}
 
@@ -95,7 +95,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 			productes = llistatProductes;
 			return SUCCESS;
 		}else {
-			return "no user";
+			return "login";
 		}
 	}
  	
@@ -202,5 +202,15 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 	public Map<Integer, Boolean> getCheckboxes() {
 		return checkboxes;
 	}
+
+	public Usuari getUsuari() {
+		return usuari;
+	}
+
+	public void setUsuari(Usuari usuari) {
+		this.usuari = usuari;
+	}
+
+	
 	
 }

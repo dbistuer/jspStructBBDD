@@ -42,6 +42,13 @@ public class Producte {
 		this.dataInici=fechaInici;
 	}
 	
+	public Producte(int id,String nom,float preu,int disponibilitat,String descripcio,int idUsuari){
+		this(nom,disponibilitat, idUsuari);
+		this.descripcio = descripcio;
+		this.preu = preu;
+		this.id=id;
+	}
+	
 	public Producte(int id,int idUsuari,String nom,int disponibilitat,String descripcio,float preu,Date iniciVenda){
 		this(nom,disponibilitat, idUsuari);
 		this.descripcio = descripcio;

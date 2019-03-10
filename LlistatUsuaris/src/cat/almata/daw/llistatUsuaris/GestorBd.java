@@ -138,6 +138,34 @@ public class GestorBd {
 		return producte;
 	}
 	
+	public Producte obtenirProducteCarro(int id){
+		Producte producte=null;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT producte.id,producte.nom,producte.preu,COUNT(cantitat) AS cantitat,producte.descripcio,producte.idUsuari FROM "+database+".carrito, "+database+".producte WHERE carrito.idProducte=producte.id AND carrito.idUsuari = ? GROUP BY idProducte ORDER BY preu ASC;";
+			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
+				
+				usersFound.setInt(1, id);
+				
+				try(ResultSet rs = usersFound.executeQuery()){
+					
+					while(rs.next()){
+						producte = new Producte(rs.getInt("id"),rs.getString("nom"),rs.getFloat("preu"),rs.getInt("cantitat"),rs.getString("descripcio"),rs.getInt("idUsuari")); 
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return producte;
+	}
+	
 	public Collection<Producte> filtrarProductes(Date dataInici,Date dataFi){
 		Collection<Producte> productes = new ArrayList<Producte>();
 				
@@ -224,13 +252,12 @@ public class GestorBd {
 		return retorn;
 	}
 	
-	/***/
  	public Collection<Producte> obtenirProductesCarro(int id){
  		Collection<Producte> productes = new ArrayList<Producte>();
 		
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
-			String sql = "SELECT producte.id,producte.nom,producte.preu,COUNT(cantitat) AS cantitat,producte.descripcio,producte.idUsuari FROM "+database+"carrito, "+database+"producte WHERE carrito.idProducte=producte.id AND carrito.idUsuari = ? GROUP BY idProducte ORDER BY preu ASC;";
+			String sql = "SELECT producte.id,producte.nom,producte.preu,COUNT(cantitat) AS cantitat,producte.descripcio,producte.idUsuari FROM "+database+".carrito, "+database+".producte WHERE carrito.idProducte=producte.id AND carrito.idUsuari = ? GROUP BY idProducte ORDER BY preu ASC;";
 			try(PreparedStatement usersFound = conn.prepareStatement(sql)){
 				
 				usersFound.setInt(1, id);
@@ -238,8 +265,8 @@ public class GestorBd {
 				try(ResultSet rs = usersFound.executeQuery()){
 					
 					while(rs.next()){
-						Producte producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("cantitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
-						productes.add(producte);
+						Producte producte = new Producte(rs.getInt("id"),rs.getString("nom"),rs.getFloat("preu"),rs.getInt("cantitat"),rs.getString("descripcio"),rs.getInt("idUsuari"));
+						productes.add(producte); 
 					}
 					
 				}catch(SQLException rse){
@@ -254,6 +281,9 @@ public class GestorBd {
 		}
 		return productes;
  	}
+ 	
+	/***/
+
  	
  	public void updProducte(Producte producte) {
 		int retorn = 0;
@@ -286,19 +316,28 @@ public class GestorBd {
  	
 
 	
-	public void compraProducte(Producte producte) {
+	public int compraProducte(Producte producte,int idU) {
 		int retorn = 0;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-
-			String sql = "UPDATE "+database+".producte SET disponibilitat=? WHERE id=?";
+			
+			String sqlT = "SET @trigger_on = ?;";
+			try(PreparedStatement setTrigg = conn.prepareStatement(sqlT)){
+				
+				setTrigg.setInt(1,0);
+				
+				setTrigg.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+			
+			String sql = "DELETE FROM "+database+".carrito  WHERE idUsuari= ? AND idProducte = ?;";
 			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
 				
-
-				compraProduct.setInt(1,producte.getDisponibilitat());
-				compraProduct.setInt(2,producte.getIdUsuari());
-				compraProduct.addBatch();
+				compraProduct.setInt(1,idU);
+				compraProduct.setInt(2,producte.getId());
 				
-				compraProduct.executeBatch();
+				compraProduct.executeUpdate();
 			
 			}catch(SQLException stmte){
 				stmte.printStackTrace();
@@ -307,9 +346,62 @@ public class GestorBd {
 		} catch (SQLException conne) {
 			conne.printStackTrace();
 		}
+		return retorn;
 		
 	}
 	
+	public int eliminaProducte(Producte producte,int idU) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sqlT = "SET @trigger_on = ?;";
+			try(PreparedStatement setTrigg = conn.prepareStatement(sqlT)){
+				
+				setTrigg.setInt(1,1);
+				
+				setTrigg.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+			
+			String sql = "DELETE FROM "+database+".carrito  WHERE idUsuari= ? AND idProducte = ?;";
+			try(PreparedStatement eliminarProduct = conn.prepareStatement(sql)){
+				
+				eliminarProduct.setInt(1,idU);
+				eliminarProduct.setInt(2,producte.getId());
+
+				retorn = eliminarProduct.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return retorn;
+		
+	}
+	
+	public void SetTrigger(int var) {
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "SET @trigger_on = ?;";
+			try(PreparedStatement setTrigg = conn.prepareStatement(sql)){
+				
+				setTrigg.setInt(1,var);
+				
+				setTrigg.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+	}
 	/**************************************************************************************************************/
 	
 	public Collection<Usuari> obtenirUsuaris(){

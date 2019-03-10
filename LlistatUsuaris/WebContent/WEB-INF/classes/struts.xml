@@ -43,7 +43,26 @@
       	<action name="carro" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="afegirCarro">
       		<interceptor-ref name="loginStack" />
             <result name="login">login.jsp</result>
+            <result name="success" type="redirect">llistarCarro</result>
+      		<!-- <result name="success">Carro.jsp</result> -->
+      	</action>
+      	
+      	<action name="llistarCarro" class="cat.almata.daw.llistatUsuaris.CarroAction" method="llistarCarro">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
       		<result name="success">Carro.jsp</result>
+      	</action>
+      	
+      	<action name="comprar" class="cat.almata.daw.llistatUsuaris.CarroAction" method="comprar">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success" type="redirect">llistarCarro</result>
+      	</action>
+      	
+      	<action name="eliminar" class="cat.almata.daw.llistatUsuaris.CarroAction" method="eliminar">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success" type="redirect">llistarCarro</result>
       	</action>
       
        <action name="nouUsuari" class="cat.almata.daw.llistatUsuaris.NouUsuariAction" method="crear">

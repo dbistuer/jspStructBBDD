@@ -15,11 +15,11 @@
 	<jsp:include page="menu.jsp">
 		<jsp:param name="menuActual" value="llistar.action"/>
 	</jsp:include>
-	<s:form action="carro.action" method="post">
+	<s:form action="eliminar.action" method="get">
 		<table width="100%">
 				<!-- capcalera -->
-				<tr><th colspan="7"><s:text name="llistat.llistatUsuaris" /></th></tr>
-				<tr bgcolor="grey"><th><b><s:text name="llistat.carro" /></b></th><th><b><s:text name="llistat.id" /></b></th><th><b><s:text name="llistat.idUsuari" /></b></th><th><b><s:text name="llistat.nom" /></b></th><th><b><s:text name="llistat.disponibilitat" /></b></th><th><b><s:text name="llistat.descripcio" /></b></th><th><b><s:text name="llistat.preu" /></b></th><th><b><s:text name="llistat.dataInici" /></b></th>
+				<tr><th colspan="7"><s:text name="llistat.meuCarro" /></th></tr>
+				<tr bgcolor="grey"><th><b><s:text name="llistat.carro" /></b></th><th><b><s:text name="llistat.id" /></b></th><th><b><s:text name="llistat.nom" /></b></th><th><b><s:text name="llistat.preu" /></b></th><th><b><s:text name="llistat.cantitat" /></b></th><th><b><s:text name="llistat.descripcio" /></b></th><th><b><s:text name="llistat.idUsuari" /></b></th>
 		
 		<s:iterator value="productes" var="producte" status="rowstatus">
 		 			<!-- Pintem els parells diferent dels imparells -->
@@ -27,16 +27,18 @@
 	            	<s:else><tr></s:else>
 	            	<!-- Anem a llistar un PRODUCTE -->
 	            	<!--  <td align="center"><s:checkbox name="checkboxes[%{#rowstatus.index}]" theme="simple" /></td>  -->
-	            	<td align="center"><s:checkbox name="checkboxes[%{id,idUsuari}]" theme="simple" /></td>
+	            	<td align="center"><s:checkbox name="checkboxes[%{id}]" theme="simple" /></td>
 	            	<td align="center"><s:property value="id"/></td>
-	            	<td align="center"><s:property value="idUsuari"/></td>
 	            	<td align="center"><s:property value="nom"/></td>
+	            	<td align="center"><s:property value="preu"/></td>
 	            	<td align="center"><s:property value="disponibilitat"/></td>
 	            	<td align="center"><s:property value="descripcio"/></td>
-	            	<td align="center"><s:property value="preu"/></td>
-	            	<td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>
+	            	<td align="center"><s:property value="idUsuari"/></td>
 	    </s:iterator>
-	    <s:submit name="submit" key="global.carro" align="center" />
+    	<s:submit name="submit" cssStyle="color: red;" key="global.elimina" align="center" />
+    </s:form>
+    <s:form action="comprar.action" method="post">	
+	    <s:submit name="submit" cssStyle="color: green;" key="global.compra" align="center" />	
     </s:form>
 	<jsp:include page="peu.jsp"/>
 </body>

@@ -35,9 +35,12 @@
 		 			<!-- Pintem els parells diferent dels imparells -->
 		 			<s:if test="#rowstatus.odd == true"><tr bgcolor="Aqua"></s:if>
 	            	<s:else><tr></s:else>
+	            	<s:if test="usuari.id != idUsuari">
 	            	<!-- Anem a llistar un PRODUCTE -->
 	            	<!--  <td align="center"><s:checkbox name="checkboxes[%{#rowstatus.index}]" theme="simple" /></td>  -->
-	            	<td align="center"><s:checkbox name="checkboxes[%{id}]" theme="simple" /></td>
+	            		<td align="center"><s:checkbox name="checkboxes[%{id}]" theme="simple" /></td>
+	            	</s:if>
+	            	<s:else><td><s:checkbox hidden="true" name="checkboxes[%{id}]" theme="simple" /></td></s:else>
 	            	<td align="center"><s:property value="id"/></td>
 	            	<td align="center"><s:property value="idUsuari"/></td>
 	            	<td align="center"><s:property value="nom"/></td>
@@ -45,6 +48,7 @@
 	            	<td align="center"><s:property value="descripcio"/></td>
 	            	<td align="center"><s:property value="preu"/></td>
 	            	<td align="center"><s:property value="%{getText('global.date',{dataInici})}"/></td>
+	            	
 	    </s:iterator>
 	    <s:submit name="submit" key="global.carro" align="center" />
     </s:form>
