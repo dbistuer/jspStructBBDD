@@ -22,6 +22,11 @@ public class Producte {
 		super();
 	}
 	
+	public Producte(int id){
+		this();
+		this.id=id;
+	}
+	
 	public Producte(String nom, int disponibilitat, int idUsuari) {
 		this();
 		this.nom = nom;

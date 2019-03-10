@@ -79,9 +79,9 @@ public class GestorBd {
 		
 	}
 	
-	public ArrayList<Producte> obtenirProductes(){
+	public Collection<Producte> obtenirProductes(){
 		
-		ArrayList<Producte> productes = new ArrayList<Producte>();
+		Collection<Producte> productes = new ArrayList<Producte>();
 		
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
@@ -110,8 +110,36 @@ public class GestorBd {
 		
 	}
 
-	public ArrayList<Producte> filtrarProductes(Date dataInici,Date dataFi){
-		ArrayList<Producte> productes = new ArrayList<Producte>();
+	public Producte obtenirProducte(int id){
+		Producte producte=null;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+			
+			String sql = "SELECT * FROM "+database+".producte WHERE id = ?;";
+			try(PreparedStatement userFound = conn.prepareStatement(sql)){
+				
+				userFound.setInt(1, id);
+				
+				try(ResultSet rs = userFound.executeQuery()){
+					
+					while(rs.next()){
+						producte = new Producte(rs.getInt("id"),rs.getInt("idUsuari"),rs.getString("nom"),rs.getInt("disponibilitat"),rs.getString("descripcio"),rs.getFloat("preu"),rs.getDate("iniciVenda"));
+					}
+					
+				}catch(SQLException rse){
+					rse.printStackTrace();
+				}
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return producte;
+	}
+	
+	public Collection<Producte> filtrarProductes(Date dataInici,Date dataFi){
+		Collection<Producte> productes = new ArrayList<Producte>();
 				
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
@@ -141,8 +169,8 @@ public class GestorBd {
 		return productes;
 	}
 	
-	public ArrayList<Producte> filtrarProductes(int preuMinim,int preuMaxim){
-		ArrayList<Producte> productes = new ArrayList<Producte>();
+	public Collection<Producte> filtrarProductes(int preuMinim,int preuMaxim){
+		Collection<Producte> productes = new ArrayList<Producte>();
 				
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
@@ -199,6 +227,30 @@ public class GestorBd {
 			conne.printStackTrace();
 		}
 		
+	}
+ 	/*Fer el triguer que resta al producte i aqui fer el insert a la taula carrito*/
+ 	public int producteAlCarro(Producte producte,int id) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "INSERT INTO "+database+".carrito(idUsuari,idProducte,cantitat)  VALUES(?,?,?) ";
+			try(PreparedStatement compraProduct = conn.prepareStatement(sql)){
+				
+
+				compraProduct.setInt(1,id);
+				compraProduct.setInt(2,producte.getId());
+				compraProduct.setInt(3,1);
+				
+				retorn = compraProduct.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		return retorn;
 	}
 	
 	public void compraProducte(Producte producte) {
@@ -302,7 +354,6 @@ public class GestorBd {
 				try(ResultSet rs = loginUser.executeQuery()){
 						if(rs.next()) {
 							usuari = new Usuari(rs.getInt("id"),rs.getString("nom"),rs.getString("cognom"),rs.getString("login"),rs.getString("pass"),rs.getString("mail"));
-							/*/*//*/*//*/*//*/*/
 						}
 					
 				}catch(SQLException rse){

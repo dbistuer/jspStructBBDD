@@ -39,6 +39,12 @@
             <result name="login">login.jsp</result>
       		<result name="success">main.jsp</result>
       	</action>
+      	
+      	<action name="carro" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="afegirCarro">
+      		<interceptor-ref name="loginStack" />
+            <result name="login">login.jsp</result>
+      		<result name="success">Carro.jsp</result>
+      	</action>
       
        <action name="nouUsuari" class="cat.almata.daw.llistatUsuaris.NouUsuariAction" method="crear">
       		<interceptor-ref name="loginStack" />
