@@ -16,6 +16,7 @@
 		<jsp:param name="menuActual" value="llistar.action"/>
 	</jsp:include>
 	<s:form action="eliminar.action" method="get">
+		<s:actionerror labelposition="center" style="border: 1px solid red; background-color: #c23f0f"/>
 		<table width="100%">
 				<!-- capcalera -->
 				<tr><th colspan="7"><s:text name="llistat.meuCarro" /></th></tr>

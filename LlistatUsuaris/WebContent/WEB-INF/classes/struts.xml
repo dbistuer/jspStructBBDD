@@ -32,17 +32,21 @@
       		<interceptor-ref name="loginStack" />
             <result name="login">login.jsp</result>
       		<result name="success">main.jsp</result>
+      		<result name="fechesNull" type="redirect">llistar</result>
       	</action>
       	
       	<action name="filtrarPreu" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="filtrarPreu">
       		<interceptor-ref name="loginStack" />
             <result name="login">login.jsp</result>
+            <result name="preusErronis" type="redirect">llistar</result>
       		<result name="success">main.jsp</result>
       	</action>
       	
       	<action name="carro" class="cat.almata.daw.llistatUsuaris.LlistarAction" method="afegirCarro">
       		<interceptor-ref name="loginStack" />
             <result name="login">login.jsp</result>
+            <result name="CheckNoLoad" type="redirect">llistar</result>
+            <result name="NoEnQueda" type="redirect">llistar</result>
             <result name="success" type="redirect">llistarCarro</result>
       		<!-- <result name="success">Carro.jsp</result> -->
       	</action>
@@ -62,6 +66,7 @@
       	<action name="eliminar" class="cat.almata.daw.llistatUsuaris.CarroAction" method="eliminar">
       		<interceptor-ref name="loginStack" />
             <result name="login">login.jsp</result>
+            <result name="CheckNoLoad" type="redirect">llistarCarro</result>
       		<result name="success" type="redirect">llistarCarro</result>
       	</action>
       

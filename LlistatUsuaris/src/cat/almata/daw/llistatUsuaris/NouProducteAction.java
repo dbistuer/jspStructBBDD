@@ -41,10 +41,6 @@ public class NouProducteAction extends DBAction implements SessionAware{
 	}
 	
 	public String crear(){
-		// Si tenim dades d'usuari per omplir i hem recollit la llista d'usuaris correctament de session
-		// caldrà afegir aquest usuari a la llista.
-		// en cas que tinguem dades d'usuari, però aquest ja existeixi (el seu login) caldrà que informem 
-		// d'aquest error amb la funció addActionError();
 		cargaDB();
 		usuari = (Usuari) session.get(Constants.sessioUsuari);
 		if(!(db.loginUsuari(usuari.getLogin(),usuari.getPass()))){
@@ -53,7 +49,6 @@ public class NouProducteAction extends DBAction implements SessionAware{
 		}else {
 			usuari = db.getUsuari(usuari.getLogin());
 			if(producte!=null) {
-				//llistaProductes = (Hashtable<String, Producte>)aplication.get(Constants.sessioLista);
 				producte.setIdUsuari(usuari.getId());
 				db.crearProducte(producte);
 				return SUCCESS;

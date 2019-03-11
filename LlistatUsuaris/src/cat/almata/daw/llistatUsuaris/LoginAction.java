@@ -43,7 +43,7 @@ public class LoginAction extends DBAction implements SessionAware{
 			session.put(Constants.sessioUsuari, usuari);
 			return SUCCESS;
 		}else {
-			addActionError(getText("login.error"));
+			addActionError(getText("loged.error"));
 			return "login";
 		}	
 	}

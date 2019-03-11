@@ -21,7 +21,7 @@
 			application.setAttribute(Constants.sessioLista, llistaUsuaris);
 		}
 	%>
-	<s:actionerror/>
+	<s:actionerror labelposition="center" style="border: 1px solid red; background-color: #c23f0f"/>
 	<s:form action="login.action" method="post">
 		<s:textfield key="login.nom" name="usuari.login"/>
 	  	<s:password key="login.login" name="usuari.pass"/>

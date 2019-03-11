@@ -14,17 +14,10 @@
 <title>Nou usuari</title>
 </head>
 <body>
- <%
- //Usuari usuari = (Usuari)session.getAttribute(Constants.sessioUsuari); 
- //out.println("Usuari:"+usuari.getLogin()+"<br/>");
- //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
- //out.println("Sessio:"+dateFormat.format(usuari.getIniciSessio()));
- 
- %>
 	<jsp:include page="menu.jsp">
 		<jsp:param name="menuActual" value="nouProducte.action"/>
 	</jsp:include>
-	 <s:actionerror/>
+	 <s:actionerror labelposition="center" style="border: 1px solid red; background-color: #c23f0f"/>
 	 <s:form action="nouProducte.action" method="post">
 	  <s:textfield key="newP.nom" name="producte.nom"  />
 	  <s:textfield key="newP.disponibilitat" name="producte.disponibilitat"  />

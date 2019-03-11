@@ -40,10 +40,6 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 
 	
 	public String llistarProductes() {
-		// Aquí hem d'agafar de session la llista d'usuaris
-		// En cas que no existeixi el crearem i el posarem 
-		// en l'àmbit session.
-		// si existeix ho passarem a una Collection
 		setCheckboxes(checkboxes);
 		cargaDB();
 		
@@ -53,10 +49,10 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		if(llistatProductes == null) {
 			llistatProductes = new ArrayList<Producte>();
 		}
-		//application.put(Constants.llistatProductes, llistatProductes);
 		productes = llistatProductes;
 		return SUCCESS;
 		}else {
+			addActionError(getText("login.error"));
 			return "login";
 		}
 		
@@ -77,9 +73,11 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 				productes = llistatProductes;
 				return SUCCESS;
 			}else {
-				return "feches = null";
+				addActionError(getText("fecha.error"));
+				return "fechesNull";
 			}
 		}else {
+			addActionError(getText("login.error"));
 			return "login";
 		}
 	}
@@ -89,12 +87,18 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		
 		usuari = (Usuari)session.get(Constants.sessioUsuari);
 		if(usuari != null) {
-			ArrayList<Producte> llistatProductes = (ArrayList<Producte>) db.filtrarProductes(preuMinim,preuMaxim);
-			if(llistatProductes == null)
-				llistatProductes = new ArrayList<Producte>();
-			productes = llistatProductes;
-			return SUCCESS;
+			if(preuMinim<preuMaxim) {
+				ArrayList<Producte> llistatProductes = (ArrayList<Producte>) db.filtrarProductes(preuMinim,preuMaxim);
+				if(llistatProductes == null)
+					llistatProductes = new ArrayList<Producte>();
+				productes = llistatProductes;
+				return SUCCESS;
+			}else {
+				addActionError(getText("preu.error"));
+				return "preusErronis";
+			}
 		}else {
+			addActionError(getText("login.error"));
 			return "login";
 		}
 	}
@@ -109,6 +113,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 			    if(entry.getValue()) {
 				    producte = db.obtenirProducte(entry.getKey().intValue());
 				    if(producte.getDisponibilitat()<1) {
+				    	addActionError(getText("zero.error"));
 				    	return "NoEnQueda";
 				    }else {
 				    	Usuari u = (Usuari) session.get(Constants.sessioUsuari);
@@ -119,6 +124,7 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 			}
 			return SUCCESS;
 		}else{
+			addActionError(getText("check.error"));
 			return "CheckNoLoad";
 		}
 	}

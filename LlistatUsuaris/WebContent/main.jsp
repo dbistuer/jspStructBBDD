@@ -20,12 +20,13 @@
 		<s:textfield key="main.dataFi" name="dataFi"  value="%{getText('global.date',{dataFi})}" />
 		<s:submit name="submit" key="global.cerca" align="center" />
 	</s:form>
-		<s:form action="filtrarPreu.action" method="post">
+	<s:form action="filtrarPreu.action" method="post">
 		<s:textfield type="number" key="main.preuMinim" name="preuMinim" />
 		<s:textfield type="number" key="main.preuMaxim" name="preuMaxim" />
 		<s:submit name="submit" key="global.cerca" align="center" />
 	</s:form>
 	<s:form action="carro.action" method="post">
+		<s:actionerror labelposition="center" style="border: 1px solid red; background-color: #c23f0f"/>
 		<table width="100%">
 				<!-- capcalera -->
 				<tr><th colspan="7"><s:text name="llistat.llistatUsuaris" /></th></tr>
