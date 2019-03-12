@@ -48,9 +48,3 @@ VALUES(1,'pepino',3,'Producte agricola sense pesticides in aditus.',1.2,'2019-03
 INSERT INTO producte(idUsuari,nom,disponibilitat,descripcio,preu,inicivenda)
 VALUES(1,'patata',5,'Producte agricola sense pesticides in aditus.',1.0,'2019-02-01');
 
-/*UPDATE PRODUCTE*/
-
-UPDATE producte SET nom='pastanaga', disponibilitat=10, descripcio='Es una pastanaga', preu=1.4, iniciVenda='2018-01-01' WHERE id=1;
-
-/*UPDATE DISPONIBILITAT PRODUCTE*/
-UPDATE producte SET disponibilitat=10 WHERE id=1;
