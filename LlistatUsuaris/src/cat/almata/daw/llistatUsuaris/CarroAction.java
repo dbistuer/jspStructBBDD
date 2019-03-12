@@ -34,8 +34,9 @@ public class CarroAction extends DBAction implements SessionAware{
 		cargaDB();
 		
 		usuari = (Usuari)session.get(Constants.sessioUsuari);
-		usuari = db.getUsuari(usuari.getLogin());
+		
 		if(usuari != null) {
+			usuari = db.getUsuari(usuari.getLogin());
 			ArrayList<Producte> llistatProductes = (ArrayList<Producte>) db.obtenirProductesCarro(usuari.getId());
 		if(llistatProductes == null) {
 			llistatProductes = new ArrayList<Producte>();
@@ -51,14 +52,14 @@ public class CarroAction extends DBAction implements SessionAware{
 	public String comprar() {
 		cargaDB();
 		Usuari u = (Usuari) session.get(Constants.sessioUsuari);
-    	u = db.getUsuari(u.getLogin());
     	if(usuari != null) {
-	    productes = (List<Producte>) db.obtenirProductesCarro(u.getId());
-	    Iterator<Producte> iterador = productes.iterator();
-	    while(iterador.hasNext()) {
-	    	int e=db.compraProducte(iterador.next(),u.getId());
-	    }
-		return SUCCESS;
+    		u = db.getUsuari(u.getLogin());
+		    productes = (List<Producte>) db.obtenirProductesCarro(u.getId());
+		    Iterator<Producte> iterador = productes.iterator();
+		    while(iterador.hasNext()) {
+		    	int e=db.compraProducte(iterador.next(),u.getId());
+		    }
+		    return SUCCESS;
     	}else {
     		addActionError(getText("login.error"));
 			return "login";
@@ -68,19 +69,19 @@ public class CarroAction extends DBAction implements SessionAware{
 	public String eliminar() {
 		cargaDB();
 		Usuari u = (Usuari) session.get(Constants.sessioUsuari);
-    	u = db.getUsuari(u.getLogin());
     	if(usuari != null) {
-		setCheckboxes(checkboxes);
-		if(checkboxes!=null){
-			Iterator<Map.Entry<Integer, Boolean>> entries = checkboxes.entrySet().iterator();
-			while (entries.hasNext()) {
-			    Map.Entry<Integer, Boolean> entry = entries.next();
-			    if(entry.getValue()) {
-				    producte = db.obtenirProducte(entry.getKey().intValue());
-			    	int e=db.eliminaProducte(producte,u.getId());
+    		u = db.getUsuari(u.getLogin());
+			setCheckboxes(checkboxes);
+			if(checkboxes!=null){
+				Iterator<Map.Entry<Integer, Boolean>> entries = checkboxes.entrySet().iterator();
+				while (entries.hasNext()) {
+				    Map.Entry<Integer, Boolean> entry = entries.next();
+				    if(entry.getValue()) {
+					    producte = db.obtenirProducte(entry.getKey().intValue());
+				    	int e=db.eliminaProducte(producte,u.getId());
+					}
 				}
-			}
-			return SUCCESS;
+				return SUCCESS;
 			}else{
 				addActionError(getText("check.error"));
 				return "CheckNoLoad";

@@ -36,7 +36,7 @@
 		 			<!-- Pintem els parells diferent dels imparells -->
 		 			<s:if test="#rowstatus.odd == true"><tr bgcolor="Aqua"></s:if>
 	            	<s:else><tr></s:else>
-	            	<s:if test="usuari.id != idUsuari">
+	            	<s:if test="usuari.id != idUsuari && disponibilitat > 0">
 	            	<!-- Anem a llistar un PRODUCTE -->
 	            	<!--  <td align="center"><s:checkbox name="checkboxes[%{#rowstatus.index}]" theme="simple" /></td>  -->
 	            		<td align="center"><s:checkbox name="checkboxes[%{id}]" theme="simple" /></td>
