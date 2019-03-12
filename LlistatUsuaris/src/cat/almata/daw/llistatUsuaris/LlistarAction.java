@@ -58,13 +58,14 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 		
 	}
 	
-	public String filtrarProductes() throws ParseException {
+	public String filtrarProductes()  {
 		
 		cargaDB();
 		
 		usuari = (Usuari)session.get(Constants.sessioUsuari);
 		if(usuari != null) {
 			if(dataInici != null && dataFi != null) {
+				try {
 				java.sql.Date sqlDI = new java.sql.Date(dataInici.getTime());
 				java.sql.Date sqlDF = new java.sql.Date(dataFi.getTime());
 				ArrayList<Producte> llistatProductes = (ArrayList<Producte>) db.filtrarProductes(sqlDI,sqlDF);
@@ -72,6 +73,10 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 					llistatProductes = new ArrayList<Producte>();
 				productes = llistatProductes;
 				return SUCCESS;
+				}catch(Exception e) {
+					addActionError(getText("fecha.error"));
+					return "fechesNull";
+				}
 			}else {
 				addActionError(getText("fecha.error"));
 				return "fechesNull";
@@ -84,13 +89,18 @@ public class LlistarAction extends DBAction implements ApplicationAware,SessionA
 
 	public String filtrarPreu() {
 		cargaDB(); 
-		
+		ArrayList<Producte> llistatProductes;
 		usuari = (Usuari)session.get(Constants.sessioUsuari);
 		if(usuari != null) {
-			if(preuMinim<preuMaxim) {
-				ArrayList<Producte> llistatProductes = (ArrayList<Producte>) db.filtrarProductes(preuMinim,preuMaxim);
-				if(llistatProductes == null)
+			if(preuMinim<preuMaxim || preuMinim>preuMaxim) {
+				if(preuMinim<preuMaxim) 
+					llistatProductes = (ArrayList<Producte>) db.filtrarProductes(preuMinim,preuMaxim);
+				else 
+					llistatProductes = (ArrayList<Producte>) db.filtrarProductes(preuMaxim,preuMinim);
+
+				if(llistatProductes == null) 
 					llistatProductes = new ArrayList<Producte>();
+
 				productes = llistatProductes;
 				return SUCCESS;
 			}else {
