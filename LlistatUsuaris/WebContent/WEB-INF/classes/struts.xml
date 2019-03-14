@@ -83,6 +83,19 @@
       		<result name="input">newProducte.jsp</result>
       		<result name="success" type="redirectAction">llistar</result>
       </action>
+      
+      <action name="editUser" class="cat.almata.daw.llistatUsuaris.EditUserAction" method="editUser">
+      		<interceptor-ref name="loginStack" />
+        	<result name="login">login.jsp</result>
+      		<result name="input">EditUser.jsp</result>
+      </action>
+      
+      <action name="updateUser" class="cat.almata.daw.llistatUsuaris.EditUserAction" method="updateUser">
+      		<interceptor-ref name="loginStack" />
+        	<result name="login">login.jsp</result>
+      		<result name="input">EditUser.jsp</result>
+      		<result name="success" type="redirectAction">llistar</result>
+      </action>
 
         <action name="logout" class="cat.almata.daw.llistatUsuaris.LoginAction" method="logout">
                 <result>login.jsp</result>

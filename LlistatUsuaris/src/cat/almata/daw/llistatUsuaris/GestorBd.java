@@ -281,40 +281,6 @@ public class GestorBd {
 		}
 		return productes;
  	}
- 	
-	/***/
-
- 	
- 	public void updProducte(Producte producte) {
-		int retorn = 0;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
-
-			String sql = "UPDATE "+database+".producte SET nom=?, disponibilitat=?, descripcio=?, preu=?, iniciVenda=? WHERE id=?;";
-			try(PreparedStatement updProduct = conn.prepareStatement(sql)){
-				
-
-				updProduct.setString(1,producte.getNom());
-				updProduct.setInt(2,producte.getDisponibilitat());
-				updProduct.setString(3,producte.getDescripcio());
-				updProduct.setFloat(4,producte.getPreu());
-				java.sql.Date dinici= new java.sql.Date(producte.getDataInici().getTime());
-				updProduct.setDate(5,dinici);
-				updProduct.setInt(6,producte.getIdUsuari());
-				updProduct.addBatch();
-				
-				updProduct.executeBatch();
-			
-			}catch(SQLException stmte){
-				stmte.printStackTrace();
-			}
-
-		} catch (SQLException conne) {
-			conne.printStackTrace();
-		}
-		
-	}
- 	
-
 	
 	public int compraProducte(Producte producte,int idU) {
 		int retorn = 0;
@@ -402,12 +368,40 @@ public class GestorBd {
 			conne.printStackTrace();
 		}
 	}
+	
+	public void updProducte(Producte producte) {
+		int retorn = 0;
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "UPDATE "+database+".producte SET nom=?, disponibilitat=?, descripcio=?, preu=?, iniciVenda=? WHERE id=?;";
+			try(PreparedStatement updProduct = conn.prepareStatement(sql)){
+				
+
+				updProduct.setString(1,producte.getNom());
+				updProduct.setInt(2,producte.getDisponibilitat());
+				updProduct.setString(3,producte.getDescripcio());
+				updProduct.setFloat(4,producte.getPreu());
+				java.sql.Date dinici= new java.sql.Date(producte.getDataInici().getTime());
+				updProduct.setDate(5,dinici);
+				updProduct.setInt(6,producte.getIdUsuari());
+				updProduct.addBatch();
+				
+				updProduct.executeBatch();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		
+	}
 	/**************************************************************************************************************/
 	
 	public Collection<Usuari> obtenirUsuaris(){
 		
-		
-		ArrayList<Usuari> usuaris = new ArrayList<Usuari>();
+		Collection<Usuari> usuaris = new ArrayList<Usuari>();
 		
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 			
@@ -418,7 +412,7 @@ public class GestorBd {
 				try(ResultSet rs = usersFound.executeQuery()){
 					
 					while(rs.next()){
-						Usuari usuari = new Usuari(rs.getString("login"),rs.getString("nom"));
+						Usuari usuari = new Usuari(rs.getInt("id"),rs.getString("nom"),rs.getString("cognom"),rs.getString("login"),rs.getString("pass"),rs.getString("mail"));
 						usuaris.add(usuari);
 					}
 					
@@ -499,7 +493,7 @@ public class GestorBd {
 		int retorn = 0;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
 
-			String sql = "INSERT INTO "+database+".Usuaris VALUES(?, ?);";
+			String sql = "INSERT INTO "+database+".usuari(nom,cognom,login,pass,mail) VALUES(?, ?, ?, ?, ?);";
 			try(PreparedStatement insertedUser = conn.prepareStatement(sql)){
 				
 				/*insertedUser.setString(2,producte.getNom());
@@ -519,6 +513,30 @@ public class GestorBd {
 		
 	}
 
+	public void updateUser(Usuari u,String login) {
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://"+this.hostname+"/"+this.database,this.userLogin,this.userPasswd)){
+
+			String sql = "UPDATE "+database+".usuari SET nom = ?, cognom = ?, login = ?, pass = ?, mail = ? WHERE login LIKE ?;";
+			try(PreparedStatement updUser = conn.prepareStatement(sql)){
+				
+				updUser.setString(1,u.getNom());
+				updUser.setString(2,u.getCognoms());
+				updUser.setString(3,u.getLogin());
+				updUser.setString(4,u.getPass());
+				updUser.setString(5,u.getEmail());
+				updUser.setString(6,login);
+				updUser.executeUpdate();
+			
+			}catch(SQLException stmte){
+				stmte.printStackTrace();
+			}
+
+		} catch (SQLException conne) {
+			conne.printStackTrace();
+		}
+		
+	}
+	
 	/****************Setters && Getters****************/
 	
 	public String getHostname() {
