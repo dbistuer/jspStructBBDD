@@ -23,8 +23,8 @@
 	  <s:textfield key="newUser.cognoms" name="usuari.cognoms"  value="%{#session.loginUsuari.cognoms}"/>
 	  <s:textfield key="newUser.email" name="usuari.email" value="%{#session.loginUsuari.email}" />
 	  <s:textfield key="newUser.login" name="usuari.login" value="%{#session.loginUsuari.login}"/>
-	  <s:password key="newUser.pass" name="usuari.pass" value="%{#session.loginUsuari.pass}"/>
-	  <s:password key="newUser.password" name="usuari.password" value="%{#session.loginUsuari.pass}"/>
+	  <s:password key="newUser.pass" name="usuari.pass"/><!-- value="%{#session.loginUsuari.pass}" -->
+	  <s:password key="newUser.password" name="usuari.password" /><!-- value="%{#session.loginUsuari.pass}" -->
      <!-- <s:textfield key="newUser.dataNaixement" name="usuari.dataNaixement"  value="%{getText('global.date',{usuari.dataNaixement})}" />
 	  <s:textfield key="newUser.mobil" name="usuari.mobil"  /> --> 
       <s:submit name="submit" key="global.save" align="center" />
